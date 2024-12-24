@@ -6,10 +6,6 @@ const AuthControlForm = ({
   disabled,
   buttonTitle,
   required,
-  lengthValue,
-  lengthMessage,
-  patternValue,
-  patternMessage,
   inputFormControl,
 }) => {
   return (
@@ -26,12 +22,12 @@ const AuthControlForm = ({
             {...register(form.name, {
               required: required,
               minLength: {
-                value: lengthValue,
-                message: lengthMessage,
+                value: form.lengthValue,
+                message: form.lengthMessage,
               },
               pattern: {
-                value: patternValue,
-                message: patternMessage,
+                value: form.patternValue,
+                message: form.patternMessage,
               },
             })}
             className={form.style}
