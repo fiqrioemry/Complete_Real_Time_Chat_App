@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 const AuthControlForm = ({
   onSubmit,
-  inputFormControl,
   register,
   errors,
   disabled,
   buttonTitle,
+  required,
+  lengthValue,
+  lengthMessage,
+  patternValue,
+  patternMessage,
+  inputFormControl,
 }) => {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
@@ -19,7 +24,15 @@ const AuthControlForm = ({
             type={form.type}
             placeholder={form.placeholder}
             {...register(form.name, {
-              required: form.message, // Pesan error jika input kosong
+              required: required,
+              minLength: {
+                value: lengthValue,
+                message: lengthMessage,
+              },
+              pattern: {
+                value: patternValue,
+                message: patternMessage,
+              },
             })}
             className={form.style}
           />
