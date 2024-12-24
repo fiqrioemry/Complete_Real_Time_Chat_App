@@ -1,21 +1,20 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { MessageSquare } from "lucide-react";
+import { signInFormControl } from "../config";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
-import { Eye, EyeOff, Lock, Mail, MessageSquare } from "lucide-react";
 
 const SignIn = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const { signIn, isLoggingIn } = useAuthStore();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    signIn(formData);
-  };
+  const onSubmit = (formData) => signIn(formData);
 
   return (
     <div className="h-screen grid lg:grid-cols-2">
@@ -37,57 +36,29 @@ const SignIn = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Email</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-base-content/40" />
-                </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {signInFormControl.map((form, index) => (
+              <div className="mb-6" key={index}>
+                <label htmlFor={form.name} className="block text-gray-700 mb-2">
+                  {form.name}
+                </label>
                 <input
-                  type="email"
-                  className={`input input-bordered w-full pl-10`}
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
+                  id={form.name}
+                  type={form.type}
+                  placeholder={form.placeholder}
+                  {...register(form.name, {
+                    required: form.message,
+                  })}
+                  className={form.style}
                 />
-              </div>
-            </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Password</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-base-content/40" />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pl-10`}
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-base-content/40" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-base-content/40" />
-                  )}
-                </button>
+                {errors[form.name] && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors[form.name].message}
+                  </p>
+                )}
               </div>
-            </div>
+            ))}
 
             <button
               type="submit"

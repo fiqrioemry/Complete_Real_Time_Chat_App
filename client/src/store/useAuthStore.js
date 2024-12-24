@@ -29,7 +29,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  signup: async (formData) => {
+  signUp: async (formData) => {
     set({ isSigningUp: true });
     try {
       const response = await axiosInstance.post("/auth/signup", formData);
@@ -42,7 +42,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  signin: async (formData) => {
+  signIn: async (formData) => {
     set({ isLoggingIn: true });
     try {
       const response = await axiosInstance.post("/auth/signin", formData);
@@ -50,13 +50,14 @@ export const useAuthStore = create((set, get) => ({
       toast.success(response.data.message);
       get().connectSocket();
     } catch (error) {
+      console.log(error);
       toast.error(error.response.data.message);
     } finally {
       set({ isLoggingIn: false });
     }
   },
 
-  signout: async () => {
+  signOut: async () => {
     try {
       const response = await axiosInstance.post("/auth/signout");
       set({ authUser: null });
