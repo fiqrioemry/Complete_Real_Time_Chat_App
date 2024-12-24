@@ -2,6 +2,7 @@ require("dotenv").config();
 const cors = require("cors");
 const path = require("path");
 const express = require("express");
+const services = require("./routes/index");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/database");
 const { app, server } = require("./config/socket");
@@ -20,6 +21,9 @@ app.use(
   })
 );
 
+app.use("/api/auth", services.authRoute);
+app.use("/api/auth", services.messageRoute);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
 
@@ -28,6 +32,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// debug
 server.listen(PORT, () => {
   console.log("server is running on PORT:" + PORT);
   connectDB();

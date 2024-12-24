@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const User = require("../../models/User");
 const cloudinary = require("../../config/cloudinary");
 const generateToken = require("../../utils/generateToken");
 const randomAvatar = require("../../utils/randomAvatar");
@@ -53,7 +53,7 @@ async function userSignIn(req, res) {
     }
 
     const payload = {
-      _id: user._id,
+      userId: user._id,
       fullName: user.fullName,
       email: user.email,
       avatar: user.avatar,
@@ -79,10 +79,10 @@ async function userSignOut(req, res) {
   return res.status(200).send({ success: true, message: "Logout is success" });
 }
 
-export const updateUserProfile = async (req, res) => {
+async function updateUserProfile(req, res) {
   try {
     const { avatar } = req.body;
-    const userId = req.user._id;
+    const userId = req.user;
 
     if (!avatar) {
       return res
@@ -109,7 +109,7 @@ export const updateUserProfile = async (req, res) => {
       error: error.message,
     });
   }
-};
+}
 
 async function checkUserAuth(req, res) {
   try {

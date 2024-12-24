@@ -1,16 +1,16 @@
-const User = require("../models/User");
-const Message = require("../models/Message");
+const User = require("../../models/User");
+const Message = require("../../models/Message");
 const cloudinary = require("../../config/cloudinary.js");
 const { getReceiverSocketId, io } = "../../config/socket.js";
 
 async function getUserInformation(req, res) {
   try {
-    const loggedInUserId = req.user._id;
-    const filteredUsers = await User.find({
-      _id: { $ne: loggedInUserId },
-    }).select("-password");
+    const { userId } = req.user;
 
-    res.status(200).send(filteredUsers);
+    const filteredUsers = await User.find({ _id: { $ne: userId } }).select(
+      "-password"
+    );
+    res.status(200).send({ success: true, data: filteredUsers });
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -23,12 +23,12 @@ async function getUserInformation(req, res) {
 async function getUserMessages(req, res) {
   try {
     const { id: userToChatId } = req.params;
-    const myId = req.user._id;
+    const { userId } = req.user;
 
     const messages = await Message.find({
       $or: [
-        { senderId: myId, receiverId: userToChatId },
-        { senderId: userToChatId, receiverId: myId },
+        { senderId: userId, receiverId: userToChatId },
+        { senderId: userToChatId, receiverId: userId },
       ],
     });
 
@@ -42,21 +42,21 @@ async function getUserMessages(req, res) {
   }
 }
 
-export const sendUserMessage = async (req, res) => {
+async function sendUserMessage(req, res) {
   try {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
-    const senderId = req.user._id;
+    const { userId } = req.user;
 
     let imageUrl;
 
     if (image) {
-      const uploadResponse = await cloudinary.uploader.upload(image);
-      imageUrl = uploadResponse.secure_url;
+      const uploadData = await cloudinary.uploader.upload(image);
+      imageUrl = uploadData.secure_url;
     }
 
     const newMessage = new Message({
-      senderId,
+      userId,
       receiverId,
       text,
       image: imageUrl,
@@ -68,8 +68,9 @@ export const sendUserMessage = async (req, res) => {
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
-
-    res.status(201).json(newMessage);
+    res
+      .status(201)
+      .send({ success: true, message: "Message is send", data: newMessage });
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -77,6 +78,6 @@ export const sendUserMessage = async (req, res) => {
       error: error.message,
     });
   }
-};
+}
 
 module.exports = { getUserInformation, getUserMessages, sendUserMessage };
