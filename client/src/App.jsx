@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
+import Settings from "./pages/Settings";
 
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
@@ -35,6 +36,7 @@ const App = () => {
           element={authUser ? <Home /> : <Navigate to="/signin" />}
         />
 
+        <Route path="/settings" element={<Settings />} />
         <Route
           path="/signin"
           element={!authUser ? <SignIn /> : <Navigate to="/" />}

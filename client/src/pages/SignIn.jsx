@@ -10,11 +10,11 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  const { login, isLoggingIn } = useAuthStore();
+  const { signIn, isLoggingIn } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login(formData);
+    signIn(formData);
   };
 
   return (
@@ -107,7 +107,7 @@ const SignIn = () => {
 
           <div className="text-center">
             <p className="text-base-content/60">
-              Don&apos;t have an account?{" "}
+              Dont have an account?{" "}
               <Link to="/signup" className="link link-primary">
                 Create account
               </Link>
