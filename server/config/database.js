@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+require("dotenv").config();
+const mongoose = require("mongoose");
 
-export const connectDB = async () => {
+const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`Database is connected ${conn.connection.host}`);
+    console.log(`Database is connected on cluster : ${conn.connection.host}`);
   } catch (error) {
     console.log("Connection is error:", error);
   }
 };
+
+module.exports = connectDB;

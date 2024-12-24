@@ -1,38 +1,30 @@
-import cors from "cors";
-import dotenv from "dotenv";
-import express from "express";
-import cookieParser from "cookie-parser";
+require("dotenv").config();
+const cors = require("cors");
+const path = require("path");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const connectDB = require("./config/database");
+const { app, server } = require("./config/socket");
 
-import path from "path";
+// env configure
+const PORT = process.env.SERVER_PORT;
+const CLIENT_HOST = process.env.CLIENT_HOST;
 
-import { connectDB } from "./lib/db.js";
-
-import authRoutes from "./routes/auth.route.js";
-import messageRoutes from "./routes/message.route.js";
-import { app, server } from "./lib/socket.js";
-
-dotenv.config();
-
-const PORT = process.env.PORT;
-const __dirname = path.resolve();
-
+// support configure
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: CLIENT_HOST,
     credentials: true,
   })
 );
 
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
-
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
   });
 }
 
