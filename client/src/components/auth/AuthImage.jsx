@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const AuthImage = ({ title, subtitle }) => {
   return (
     <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">

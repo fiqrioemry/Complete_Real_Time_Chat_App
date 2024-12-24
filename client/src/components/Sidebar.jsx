@@ -54,7 +54,7 @@ const Sidebar = () => {
               w-full p-3 flex items-center gap-3
               hover:bg-base-300 transition-colors
               ${
-                selectedUser?.userId === user._id
+                selectedUser?._id === user._id
                   ? "bg-base-300 ring-1 ring-base-300"
                   : ""
               }
@@ -76,7 +76,7 @@ const Sidebar = () => {
 
             {/* User info - only visible on larger screens */}
             <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">{user.fullName}</div>
+              <div className="font-medium truncate">{user.fullname}</div>
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>

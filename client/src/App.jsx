@@ -11,6 +11,7 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
 import { Routes, Route, Navigate } from "react-router-dom";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -41,6 +42,10 @@ const App = () => {
         <Route
           path="/signin"
           element={!authUser ? <SignIn /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/profile"
+          element={!authUser ? <Profile /> : <Navigate to="/" />}
         />
         <Route
           path="/signup"

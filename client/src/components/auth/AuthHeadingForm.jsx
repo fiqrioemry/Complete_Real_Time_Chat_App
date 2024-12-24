@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { MessageSquare } from "lucide-react";
 
 const AuthHeadingForm = ({ title, description }) => {

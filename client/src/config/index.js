@@ -5,7 +5,7 @@ export const signUpFormControl = [
     placeholder: "Enter your fullname",
     required: "Fullname is required",
     lengthValue: 6,
-    lengthMessage: "Fullname must be at least 6 characters long", // Panjang minimal fullname
+    lengthMessage: "Fullname must be at least 6 characters long",
     patternValue: null,
     patternMessage: null,
     style: "input input-bordered w-full",
@@ -15,8 +15,10 @@ export const signUpFormControl = [
     type: "text",
     placeholder: "Enter your email",
     required: "Email is required",
+    lengthValue: null,
+    lengthMessage: null,
     patternValue: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    patternMessage: "Please enter a valid email address", // Validasi format email
+    patternMessage: "Please enter a valid email address",
     style: "input input-bordered w-full",
   },
   {
@@ -39,6 +41,8 @@ export const signInFormControl = [
     type: "text",
     placeholder: "Enter your email",
     required: "Email address is required",
+    minLengthValue: null,
+    minLengthMessage: null,
     patternValue: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     patternMessage: "Please enter a valid email address",
     style: "input input-bordered w-full",
