@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
-import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, MessageSquare } from "lucide-react";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -95,10 +95,7 @@ const SignIn = () => {
               disabled={isLoggingIn}
             >
               {isLoggingIn ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
-                </>
+                <span className="loading loading-spinner"></span>
               ) : (
                 "Sign in"
               )}

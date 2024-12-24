@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
 import { Routes, Route, Navigate } from "react-router-dom";
+import SignUp from "./pages/SignUp";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -27,7 +28,7 @@ const App = () => {
     );
 
   return (
-    <div data-theme={theme}>
+    <main data-theme={theme}>
       <Navbar />
 
       <Routes>
@@ -41,10 +42,14 @@ const App = () => {
           path="/signin"
           element={!authUser ? <SignIn /> : <Navigate to="/" />}
         />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUp /> : <Navigate to="/" />}
+        />
       </Routes>
 
       <Toaster />
-    </div>
+    </main>
   );
 };
 export default App;
