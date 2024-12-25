@@ -1,10 +1,10 @@
 require("dotenv").config();
-const http = require("http");
+const { createServer } = require("http");
 const express = require("express");
 const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 
 const io = new Server(server, {
   cors: {

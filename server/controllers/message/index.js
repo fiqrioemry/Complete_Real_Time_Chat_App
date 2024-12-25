@@ -1,7 +1,7 @@
 const User = require("../../models/User");
 const Message = require("../../models/Message");
 const cloudinary = require("../../config/cloudinary.js");
-const { getReceiverSocketId, io } = "../../config/socket.js";
+const { getReceiverSocketId, io } = require("../../config/socket.js");
 
 async function getUserInformation(req, res) {
   try {
@@ -32,7 +32,7 @@ async function getUserMessages(req, res) {
       ],
     });
 
-    res.status(200).send(messages);
+    res.status(200).send({ success: true, data: messages });
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -48,6 +48,7 @@ async function sendUserMessage(req, res) {
     const { id: receiverId } = req.params;
     const { userId } = req.user;
 
+    console.log(image);
     let imageUrl;
 
     if (image) {
@@ -56,7 +57,7 @@ async function sendUserMessage(req, res) {
     }
 
     const newMessage = new Message({
-      userId,
+      senderId: userId,
       receiverId,
       text,
       image: imageUrl,
@@ -65,6 +66,7 @@ async function sendUserMessage(req, res) {
     await newMessage.save();
 
     const receiverSocketId = getReceiverSocketId(receiverId);
+
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
@@ -74,7 +76,7 @@ async function sendUserMessage(req, res) {
   } catch (error) {
     res.status(500).send({
       success: false,
-      message: "Failed to send message",
+      message: error.message,
       error: error.message,
     });
   }

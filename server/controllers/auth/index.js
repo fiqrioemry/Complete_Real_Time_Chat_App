@@ -5,7 +5,7 @@ const generateToken = require("../../utils/generateToken");
 const randomAvatar = require("../../utils/randomAvatar");
 
 async function userSignUp(req, res) {
-  const { fullName, email, password } = req.body;
+  const { fullname, email, password } = req.body;
   try {
     const user = await User.findOne({ email });
 
@@ -18,7 +18,7 @@ async function userSignUp(req, res) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     await User.create({
-      fullName,
+      fullname,
       email,
       password: hashedPassword,
       avatar: randomAvatar(),
@@ -54,7 +54,7 @@ async function userSignIn(req, res) {
 
     const payload = {
       userId: user._id,
-      fullName: user.fullName,
+      fullname: user.fullname,
       email: user.email,
       avatar: user.avatar,
     };
@@ -74,7 +74,7 @@ async function userSignIn(req, res) {
 }
 
 async function userSignOut(req, res) {
-  res.clearCookie("refreshToken");
+  res.clearCookie("token");
 
   return res.status(200).send({ success: true, message: "Logout is success" });
 }
@@ -113,7 +113,7 @@ async function updateUserProfile(req, res) {
 
 async function checkUserAuth(req, res) {
   try {
-    res.status(200).send(req.user);
+    res.status(200).send({ data: req.user });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }
