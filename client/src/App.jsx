@@ -29,32 +29,18 @@ const App = () => {
     );
 
   return (
-    <main data-theme={theme}>
+    <div data-theme={theme}>
       <Navbar />
 
       <Routes>
-        <Route
-          path="/"
-          element={authUser ? <Home /> : <Navigate to="/signin" />}
-        />
-
+        <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
-        <Route
-          path="/signin"
-          element={!authUser ? <SignIn /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/profile"
-          element={!authUser ? <Profile /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/signup"
-          element={!authUser ? <SignUp /> : <Navigate to="/" />}
-        />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
-
       <Toaster />
-    </main>
+    </div>
   );
 };
 export default App;

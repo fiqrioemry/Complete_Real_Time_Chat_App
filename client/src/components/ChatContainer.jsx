@@ -54,7 +54,7 @@ const ChatContainer = () => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
-            key={message.userId}
+            key={message._id}
             className={`chat ${
               message.senderId === authUser.userId ? "chat-end" : "chat-start"
             }`}
@@ -65,18 +65,20 @@ const ChatContainer = () => {
                 <img
                   src={
                     message.senderId === authUser.userId
-                      ? authUser.profilePic || "/avatar.png"
-                      : selectedUser.profilePic || "/avatar.png"
+                      ? authUser.avatar || "/avatar.png"
+                      : selectedUser.avatar || "/avatar.png"
                   }
                   alt="profile pic"
                 />
               </div>
             </div>
+
             <div className="chat-header mb-1">
               <time className="text-xs opacity-50 ml-1">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
+
             <div className="chat-bubble flex flex-col">
               {message.image && (
                 <img
