@@ -60,3 +60,7 @@ export const signInFormControl = [
     style: "input input-bordered w-full",
   },
 ];
+
+export const nonAuthPath = ["/signin", "/signup"];
+
+export const authPath = ["/", "/settings", "/profile"];
