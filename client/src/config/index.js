@@ -10,7 +10,7 @@ export const signUpFormControl = [
     style: "input input-bordered w-full",
   },
   {
-    name: "email",
+    name: "Email",
     type: "text",
     placeholder: "Enter your email",
     lengthValue: null,
@@ -23,8 +23,8 @@ export const signUpFormControl = [
     name: "password",
     type: "password",
     placeholder: "Enter your password",
-    lengthValue: 8,
-    lengthMessage: "Password must be at least 8 characters long", // Panjang minimal password
+    lengthValue: 6,
+    lengthMessage: "Password must be at least 6 characters long", // Panjang minimal password
     patternValue: null,
     patternMessage: null,
     style: "input input-bordered w-full",

@@ -8,18 +8,15 @@ import AuthControlForm from "../components/auth/AuthControlForm";
 
 const SignIn = () => {
   const {
-    watch,
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+  });
 
   const { signIn, isLoggingIn } = useAuthStore();
 
-  function inputValidatoion() {
-    const input = watch();
-    return !input.email || !input.password;
-  }
   const onSubmit = (formData) => signIn(formData);
 
   return (
@@ -37,7 +34,7 @@ const SignIn = () => {
             buttonTitle="Sign In"
             register={register}
             errors={errors}
-            disabled={inputValidatoion()}
+            disabled={!isValid}
             loading={isLoggingIn}
             inputFormControl={signInFormControl}
           />

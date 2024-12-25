@@ -9,12 +9,12 @@ const AuthControlForm = ({
   inputFormControl,
 }) => {
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={onSubmit} className="space-y-5">
       {inputFormControl.map((form, index) => (
         <div className="h-[90px]" key={index}>
           <label
             htmlFor={form.name}
-            className="block text-base-content/60 mb-3"
+            className="block capitalize text-base-content/60 mb-3"
           >
             {form.name}
           </label>

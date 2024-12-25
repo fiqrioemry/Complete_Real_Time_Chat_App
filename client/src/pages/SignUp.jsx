@@ -8,17 +8,11 @@ import AuthControlForm from "../components/auth/AuthControlForm";
 
 const SignUp = () => {
   const {
-    watch,
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onChange", // Validasi berjalan saat input berubah
-    defaultValues: {
-      email: "",
-      password: "",
-      fullname: "",
-    },
+    mode: "onChange",
   });
 
   const { signUp, isSigningUp } = useAuthStore();
@@ -27,7 +21,7 @@ const SignUp = () => {
 
   return (
     <div className="h-screen grid lg:grid-cols-2">
-      <div className="flex flex-col justify-center bg-base-100 items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-center bg-base-100 items-center p-4 sm:p-6">
         <div className="w-full max-w-md space-y-8">
           <AuthHeadingForm
             title="Create Account"
