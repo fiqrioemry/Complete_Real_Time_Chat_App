@@ -5,7 +5,7 @@ const AuthControlForm = ({
   errors,
   disabled,
   buttonTitle,
-  required,
+  loading,
   inputFormControl,
 }) => {
   return (
@@ -20,7 +20,6 @@ const AuthControlForm = ({
             type={form.type}
             placeholder={form.placeholder}
             {...register(form.name, {
-              required: required,
               minLength: {
                 value: form.lengthValue,
                 message: form.lengthMessage,
@@ -44,9 +43,9 @@ const AuthControlForm = ({
       <button
         type="submit"
         className="btn btn-primary w-full"
-        disabled={disabled}
+        disabled={disabled || loading}
       >
-        {disabled ? (
+        {loading ? (
           <span className="loading loading-spinner"></span>
         ) : (
           buttonTitle

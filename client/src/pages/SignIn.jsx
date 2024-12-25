@@ -1,15 +1,14 @@
 import { useForm } from "react-hook-form";
-
 import { signInFormControl } from "../config";
+import AuthImage from "../components/auth/AuthImage";
 import { useAuthStore } from "../store/useAuthStore";
-
+import AuthFooterForm from "../components/auth/AuthFooterForm";
 import AuthHeadingForm from "../components/auth/AuthHeadingForm";
 import AuthControlForm from "../components/auth/AuthControlForm";
-import AuthImage from "../components/auth/AuthImage";
-import AuthFooterForm from "../components/auth/AuthFooterForm";
 
 const SignIn = () => {
   const {
+    watch,
     register,
     handleSubmit,
     formState: { errors },
@@ -17,6 +16,10 @@ const SignIn = () => {
 
   const { signIn, isLoggingIn } = useAuthStore();
 
+  function inputValidatoion() {
+    const input = watch();
+    return !input.email || !input.password;
+  }
   const onSubmit = (formData) => signIn(formData);
 
   return (
@@ -34,7 +37,8 @@ const SignIn = () => {
             buttonTitle="Sign In"
             register={register}
             errors={errors}
-            disabled={isLoggingIn}
+            disabled={inputValidatoion()}
+            loading={isLoggingIn}
             inputFormControl={signInFormControl}
           />
 

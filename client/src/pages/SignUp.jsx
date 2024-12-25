@@ -8,11 +8,16 @@ import AuthControlForm from "../components/auth/AuthControlForm";
 
 const SignUp = () => {
   const {
+    watch,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  function inputValidatoion() {
+    const input = watch();
+    return !input.email || !input.password || !input.fullname;
+  }
   const { signUp, isSigningUp } = useAuthStore();
 
   const onSubmit = (formData) => signUp(formData);
@@ -28,11 +33,12 @@ const SignUp = () => {
           />
           {/* Form */}
           <AuthControlForm
-            onSubmit={handleSubmit(onSubmit)}
-            buttonTitle="Sign Up"
-            register={register} // Mengirim register ke FormControl
             errors={errors}
-            disabled={isSigningUp}
+            register={register}
+            buttonTitle="Sign Up"
+            loading={isSigningUp}
+            disabled={inputValidatoion()}
+            onSubmit={handleSubmit(onSubmit)}
             inputFormControl={signUpFormControl}
           />
 
