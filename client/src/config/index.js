@@ -10,7 +10,7 @@ export const signUpFormControl = [
     style: "input input-bordered w-full",
   },
   {
-    name: "Email",
+    name: "email",
     type: "text",
     placeholder: "Enter your email",
     lengthValue: null,

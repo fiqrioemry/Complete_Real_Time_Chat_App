@@ -5,8 +5,10 @@ import AuthImage from "../components/auth/AuthImage";
 import AuthFooterForm from "../components/auth/AuthFooterForm";
 import AuthHeadingForm from "../components/auth/AuthHeadingForm";
 import AuthControlForm from "../components/auth/AuthControlForm";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,7 +19,7 @@ const SignUp = () => {
 
   const { signUp, isSigningUp } = useAuthStore();
 
-  const onSubmit = (formData) => signUp(formData);
+  const onSubmit = (formData) => signUp(formData, navigate);
 
   return (
     <div className="h-screen grid lg:grid-cols-2">

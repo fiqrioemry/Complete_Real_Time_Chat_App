@@ -5,12 +5,12 @@ import { Navigate, useLocation } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const AuthRoute = ({ children }) => {
-  const { userAuth } = useAuthStore();
+  const { authUser } = useAuthStore();
   const currentPath = useLocation().pathname;
 
-  if (userAuth && nonAuthPath.includes(currentPath)) return <Navigate to="/" />;
+  if (authUser && nonAuthPath.includes(currentPath)) return <Navigate to="/" />;
 
-  if (!userAuth && authPath.includes(currentPath))
+  if (!authUser && authPath.includes(currentPath))
     return <Navigate to="/signin" />;
 
   return <Fragment>{children}</Fragment>;

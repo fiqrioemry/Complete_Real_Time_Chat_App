@@ -30,7 +30,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  signUp: async (formData) => {
+  signUp: async (formData, navigate) => {
     set({ isSigningUp: true });
     try {
       const response = await axiosInstance.post("/auth/signup", formData);
@@ -39,6 +39,9 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isSigningUp: false });
+      setTimeout(() => {
+        navigate("/signin");
+      }, 500);
     }
   },
 
@@ -50,7 +53,6 @@ export const useAuthStore = create((set, get) => ({
       toast.success(response.data.message);
       get().connectSocket();
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     } finally {
       set({ isLoggingIn: false });
