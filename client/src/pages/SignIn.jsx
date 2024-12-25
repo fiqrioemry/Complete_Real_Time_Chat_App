@@ -28,7 +28,7 @@ const SignIn = () => {
       <div className="flex flex-col justify-center bg-base-100 items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           <AuthHeadingForm
-            title="welcome back"
+            title="Welcome Back"
             description="Sign in to your account"
           />
           {/* Form */}
@@ -45,7 +45,7 @@ const SignIn = () => {
           <AuthFooterForm
             title="create account"
             path="/signup"
-            description="Don't have an account"
+            description="Don't have an account ? "
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ const SignIn = () => {
       {/* Right Side - Image/Pattern */}
       <AuthImage
         title="Welcome back!"
-        subtitle="Sign in to continue your conversations and catch up with your messages."
+        subtitle="Start conversations and catch up with your messages."
       />
     </div>
   );

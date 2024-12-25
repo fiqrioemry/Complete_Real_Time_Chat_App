@@ -11,51 +11,50 @@ const SignUp = () => {
     watch,
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange", // Validasi berjalan saat input berubah
+    defaultValues: {
+      email: "",
+      password: "",
+      fullname: "",
+    },
+  });
 
-  function inputValidatoion() {
-    const input = watch();
-    return !input.email || !input.password || !input.fullname;
-  }
   const { signUp, isSigningUp } = useAuthStore();
 
   const onSubmit = (formData) => signUp(formData);
 
   return (
     <div className="h-screen grid lg:grid-cols-2">
-      {/* Left Side - Form */}
       <div className="flex flex-col justify-center bg-base-100 items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           <AuthHeadingForm
             title="Create Account"
             description="Get started with your free account"
           />
-          {/* Form */}
           <AuthControlForm
             errors={errors}
             register={register}
             buttonTitle="Sign Up"
             loading={isSigningUp}
-            disabled={inputValidatoion()}
+            disabled={!isValid}
             onSubmit={handleSubmit(onSubmit)}
             inputFormControl={signUpFormControl}
           />
-
           <AuthFooterForm
             title="Sign In"
             path="/signin"
-            description="Already have an account ?"
+            description="Already have an account ? "
           />
         </div>
       </div>
-
-      {/* Right Side - Image/Pattern */}
       <AuthImage
-        title="Join our community"
-        subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
+        title="Join Chaty BOX"
+        subtitle="Connect and stay in touch with your loved ones."
       />
     </div>
   );
 };
+
 export default SignUp;

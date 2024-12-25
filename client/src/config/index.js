@@ -23,8 +23,8 @@ export const signUpFormControl = [
     name: "password",
     type: "password",
     placeholder: "Enter your password",
-    minLengthValue: 8,
-    minLengthMessage: "Password must be at least 8 characters long", // Panjang minimal password
+    lengthValue: 8,
+    lengthMessage: "Password must be at least 8 characters long", // Panjang minimal password
     patternValue: null,
     patternMessage: null,
     style: "input input-bordered w-full",
