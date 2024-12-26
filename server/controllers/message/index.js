@@ -48,7 +48,6 @@ async function sendUserMessage(req, res) {
     const { id: receiverId } = req.params;
     const { userId } = req.user;
 
-    console.log(image);
     let imageUrl;
 
     if (image) {
