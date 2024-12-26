@@ -83,6 +83,7 @@ async function updateUserProfile(req, res) {
   try {
     const { avatar } = req.body;
     const userId = req.user;
+    console.log(avatar);
 
     if (!avatar) {
       return res
@@ -91,6 +92,7 @@ async function updateUserProfile(req, res) {
     }
 
     const uploadData = await cloudinary.uploader.upload(avatar);
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { avatar: uploadData.secure_url },

@@ -11,7 +11,7 @@ module.exports = async function isAuthenticate(req, res, next) {
         .status(401)
         .send({ message: "Unauthorized !!! Token is not found" });
     }
-    // Verifikasi token secara synchronous
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded || !decoded.payload.userId) {
