@@ -5,15 +5,17 @@ export const useFormState = (initialFormState) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
+    if (files && files[0]) {
       const file = files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setFormData((prev) => ({ ...prev, image: reader.result }));
-        };
-        reader.readAsDataURL(file);
-      }
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          file: { name: file.name, type: name, path: reader.result },
+        }));
+      };
+      reader.readAsDataURL(file);
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -26,20 +28,10 @@ export const useFormState = (initialFormState) => {
     setFormData((prev) => ({ ...prev, file: null }));
   };
 
-  const handleValidate = () => {
-    for (let field in formData) {
-      if (!formData[field]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   return {
     formData,
     setFormData,
     handleChange,
     handleRemove,
-    handleValidate,
   };
 };

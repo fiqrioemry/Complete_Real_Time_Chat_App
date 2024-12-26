@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { File, Trash } from "lucide-react";
 
-const FilePreview = ({ formData, handleRemove }) => {
+const ChatFormPreview = ({ formData, handleRemove }) => {
   return (
     <>
       {formData.file && (
@@ -41,4 +41,4 @@ const FilePreview = ({ formData, handleRemove }) => {
   );
 };
 
-export default FilePreview;
+export default ChatFormPreview;
