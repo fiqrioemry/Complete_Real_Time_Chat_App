@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { create } from "zustand";
-import { axiosInstance } from "../services";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
+import { axiosInstance } from "../services";
 
 const BASE_URL =
   import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
@@ -23,7 +24,6 @@ export const useAuthStore = create((set, get) => ({
 
       get().connectSocket();
     } catch (error) {
-      console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -78,12 +78,14 @@ export const useAuthStore = create((set, get) => ({
     set({ isUpdatingProfile: true });
     try {
       const response = await axiosInstance.put("/auth/update-profile", data);
-      set({ authUser: response.data });
+      set({ authUser: response.data.data });
+
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
       set({ isUpdatingProfile: false });
+      console.log(get().authUser);
     }
   },
 

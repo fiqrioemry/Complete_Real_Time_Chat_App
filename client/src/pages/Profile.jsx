@@ -5,6 +5,7 @@ import { Camera, Mail, User } from "lucide-react";
 const Profile = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
   const [selectedImg, setSelectedImg] = useState(null);
+  console.log(authUser);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -73,7 +74,7 @@ const Profile = () => {
             <div className="space-y-1.5">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
                 <User className="w-4 h-4" />
-                Full Name
+                Fullname
               </div>
               <p className="px-4 py-2.5 bg-base-200 rounded-lg border">
                 {authUser?.fullname}

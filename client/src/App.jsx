@@ -6,7 +6,6 @@ import Settings from "./pages/Settings";
 import AuthRoute from "./middleware/AuthRoute";
 import { Routes, Route } from "react-router-dom";
 import PageLayout from "./components/layout/PageLayout";
-import Practice from "./pages/Practice";
 
 const App = () => {
   return (
@@ -20,7 +19,6 @@ const App = () => {
             </AuthRoute>
           }
         />
-        <Route path="/practice" element={<Practice />} />
         <Route
           path="/signup"
           element={

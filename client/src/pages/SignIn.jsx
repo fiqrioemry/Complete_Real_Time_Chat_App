@@ -49,7 +49,7 @@ const SignIn = () => {
 
       {/* Right Side - Image/Pattern */}
       <AuthImage
-        title="A Real Time Chat App"
+        title="Real Time Chat App"
         subtitle="Start conversations and catch up with your friends."
       />
     </div>

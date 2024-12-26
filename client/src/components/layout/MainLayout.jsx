@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
+import PageLoading from "./PageLoading";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useThemeStore } from "../../store/useThemeStore";
-import PageLoading from "./PageLoading";
 
 const MainLayout = ({ children }) => {
   const { theme } = useThemeStore();

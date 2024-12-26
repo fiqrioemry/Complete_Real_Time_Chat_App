@@ -3,7 +3,6 @@ require("dotenv").config();
 
 module.exports = async function isAuthenticate(req, res, next) {
   try {
-    console.log(req.cookies);
     const token = req.cookies.token;
 
     if (!token) {

@@ -1,7 +1,8 @@
 const User = require("../../models/User");
 const Message = require("../../models/Message");
-const cloudinary = require("../../config/cloudinary.js");
+
 const { getReceiverSocketId, io } = require("../../config/socket.js");
+const uploadMediaToCloudinary = require("../../utils/uploadMediaToCloudinary.js");
 
 async function getUserInformation(req, res) {
   try {
@@ -24,7 +25,6 @@ async function getUserMessages(req, res) {
   try {
     const { id: userToChatId } = req.params;
     const { userId } = req.user;
-
     const messages = await Message.find({
       $or: [
         { senderId: userId, receiverId: userToChatId },
@@ -50,7 +50,7 @@ async function sendUserMessage(req, res) {
 
     let imageUrl;
     if (file) {
-      const uploadResponse = await cloudinary.uploader.upload(file.path);
+      const uploadResponse = await uploadMediaToCloudinary(file.path);
       imageUrl = uploadResponse.secure_url;
     }
 

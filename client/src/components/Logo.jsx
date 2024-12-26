@@ -8,7 +8,7 @@ const Logo = () => {
         xmlns="http://www.w3.org/2000/svg"
         fill="#000000"
       >
-        <title>Chatybox</title>
+        <title>ChatyBox</title>
         <g>
           <path
             fill="#0391FD"

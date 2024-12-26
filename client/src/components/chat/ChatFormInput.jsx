@@ -13,7 +13,7 @@ const ChatFormInput = ({
     const name = e.target.name;
 
     if (name !== "image") {
-      toast.error("Feature disabled in demo");
+      toast.error("Feature disabled in demo !!! Try image");
 
       e.target.value = "";
     } else {

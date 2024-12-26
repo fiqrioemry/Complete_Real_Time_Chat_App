@@ -5,8 +5,8 @@ import { Navigate, useLocation } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const AuthRoute = ({ children }) => {
-  const { authUser } = useAuthStore();
   const location = useLocation();
+  const { authUser } = useAuthStore();
   const currentPath = location.pathname;
 
   if (!authUser && authPath.includes(currentPath))

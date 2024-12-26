@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const User = require("../../models/User");
-const cloudinary = require("../../config/cloudinary");
 const generateToken = require("../../utils/generateToken");
 const randomAvatar = require("../../utils/randomAvatar");
+const uploadMediaToCloudinary = require("../../utils/uploadMediaToCloudinary");
 
 async function userSignUp(req, res) {
   const { fullname, email, password } = req.body;
@@ -80,29 +80,34 @@ async function userSignOut(req, res) {
 }
 
 async function updateUserProfile(req, res) {
+  const { userId } = req.user;
+  const { avatar } = req.body;
   try {
-    const { avatar } = req.body;
-    const userId = req.user;
-    console.log(avatar);
-
     if (!avatar) {
       return res
         .status(400)
         .send({ success: false, message: "Image is require" });
     }
 
-    const uploadData = await cloudinary.uploader.upload(avatar);
+    const uploadData = await uploadMediaToCloudinary(avatar);
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { avatar: uploadData.secure_url },
       { new: true }
-    );
+    ).select("-password");
+
+    const payload = {
+      userId: updatedUser._id,
+      fullname: updatedUser.fullname,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+    };
 
     res.status(200).send({
       success: true,
       message: "Profile update is success",
-      data: updatedUser.avatar,
+      data: payload,
     });
   } catch (error) {
     res.status(500).send({
@@ -115,7 +120,16 @@ async function updateUserProfile(req, res) {
 
 async function checkUserAuth(req, res) {
   try {
-    res.status(200).send({ data: req.user });
+    const data = await User.findById(req.user.userId).select("-password");
+
+    const payload = {
+      userId: data._id,
+      fullname: data.fullname,
+      email: data.email,
+      avatar: data.avatar,
+    };
+
+    res.status(200).send({ data: payload });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }

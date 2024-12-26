@@ -1,5 +1,4 @@
 const ChatSkeleton = () => {
-  // Create an array of 6 items for skeleton messages
   const settings = Array(6).fill(null);
 
   return (

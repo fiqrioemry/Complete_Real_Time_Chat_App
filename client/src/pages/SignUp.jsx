@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { signUpFormControl } from "../config";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImage from "../components/auth/AuthImage";
 import AuthFooterForm from "../components/auth/AuthFooterForm";
 import AuthHeadingForm from "../components/auth/AuthHeadingForm";
 import AuthControlForm from "../components/auth/AuthControlForm";
-import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
