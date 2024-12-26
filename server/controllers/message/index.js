@@ -44,34 +44,8 @@ async function getUserMessages(req, res) {
 
 async function sendUserMessage(req, res) {
   try {
-    const { text, image } = req.body;
-    const { id: receiverId } = req.params;
-    const { userId } = req.user;
-
-    let imageUrl;
-
-    if (image) {
-      const uploadData = await cloudinary.uploader.upload(image);
-      imageUrl = uploadData.secure_url;
-    }
-
-    const newMessage = new Message({
-      senderId: userId,
-      receiverId,
-      text,
-      image: imageUrl,
-    });
-
-    await newMessage.save();
-
-    const receiverSocketId = getReceiverSocketId(receiverId);
-
-    if (receiverSocketId) {
-      io.to(receiverSocketId).emit("newMessage", newMessage);
-    }
-    res
-      .status(201)
-      .send({ success: true, message: "Message is send", data: newMessage });
+    console.log(req.body);
+    console.log(req.file);
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -80,5 +54,39 @@ async function sendUserMessage(req, res) {
     });
   }
 }
+
+// async function sendUserMessage(req, res) {
+//   try {
+//     console.log(req.file);
+//     console.log("request created");
+//     const { text } = req.body;
+//     const { id: receiverId } = req.params;
+//     const { userId } = req.user;
+
+//     const newMessage = new Message({
+//       senderId: userId,
+//       receiverId,
+//       text,
+//       image: req.file.path || null,
+//     });
+
+//     await newMessage.save();
+
+//     const receiverSocketId = getReceiverSocketId(receiverId);
+
+//     if (receiverSocketId) {
+//       io.to(receiverSocketId).emit("newMessage", newMessage);
+//     }
+//     res
+//       .status(201)
+//       .send({ success: true, message: "Message is send", data: newMessage });
+//   } catch (error) {
+//     res.status(500).send({
+//       success: false,
+//       message: error.message,
+//       error: error.message,
+//     });
+//   }
+// }
 
 module.exports = { getUserInformation, getUserMessages, sendUserMessage };
