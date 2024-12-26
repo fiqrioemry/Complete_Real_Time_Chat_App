@@ -6,6 +6,7 @@ export const useFormState = (initialFormState) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     if (files && files[0]) {
       const file = files[0];
       const reader = new FileReader();
