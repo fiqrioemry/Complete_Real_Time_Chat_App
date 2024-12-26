@@ -6,6 +6,7 @@ const ChatFormInput = ({
   fileOption,
   handleChange,
   formData,
+  fileInputRef,
 }) => {
   return (
     <form onSubmit={handleSendMessage} className="flex items-center gap-2">
@@ -15,7 +16,7 @@ const ChatFormInput = ({
             type="button"
             tabIndex={0}
             role="button"
-            className="btn btn-sm md:btn-md "
+            className="btn btn-sm md:btn-md"
           >
             <Paperclip />
           </button>
@@ -32,6 +33,7 @@ const ChatFormInput = ({
                 {item.title}
                 <input
                   type="file"
+                  ref={fileInputRef} // Bind ref to input element
                   name={item.title}
                   accept={
                     item.title === "image"

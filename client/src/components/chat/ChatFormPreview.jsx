@@ -17,7 +17,7 @@ const ChatFormPreview = ({ formData, handleRemove }) => {
             <div>
               <h3>Video Preview:</h3>
               <video width="300" controls>
-                <source src={formData.file.path} type="video" />
+                <source src={formData.file.path} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>

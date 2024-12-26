@@ -10,6 +10,8 @@ import { useFormState } from "../hooks/useFormState";
 import { useLoadMessage } from "../hooks/useLoadMessage";
 import { fileOption, messageFormState } from "../config";
 import { useScrollMessage } from "../hooks/useScrollMessage";
+import ChatSendLoading from "./chat/ChatSendLoading";
+import toast from "react-hot-toast";
 
 const ChatContainer = () => {
   const {
@@ -22,14 +24,23 @@ const ChatContainer = () => {
   } = useChatStore();
   const messageRef = useRef(null);
   const { authUser } = useAuthStore();
+  const { sendMessage, isSendLoading } = useChatStore();
 
-  const { formData, handleChange, handleRemove } =
+  const { formData, setFormData, handleChange, handleRemove, fileInputRef } =
     useFormState(messageFormState);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!formData.text.trim() && !formData.file) return;
-    console.log("Sending message:", formData);
+
+    try {
+      await sendMessage({ text: formData.text.trim(), file: formData.file });
+      setFormData({ text: "", file: null });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to send message");
+    }
   };
 
   useLoadMessage(
@@ -39,7 +50,7 @@ const ChatContainer = () => {
     selectedUser
   );
 
-  useScrollMessage(messageRef, messages);
+  useScrollMessage(messageRef, messages, isSendLoading);
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
@@ -56,6 +67,13 @@ const ChatContainer = () => {
             selectedUser={selectedUser}
           />
         )}
+        {isSendLoading && (
+          <ChatSendLoading
+            user={authUser}
+            formData={formData}
+            messageRef={messageRef}
+          />
+        )}
       </div>
 
       <div className="p-4 w-full">
@@ -63,9 +81,12 @@ const ChatContainer = () => {
           formData={formData}
           fileOption={fileOption}
           handleChange={handleChange}
+          fileInputRef={fileInputRef}
           handleSendMessage={handleSendMessage}
         />
-        <ChatFormPreview formData={formData} handleRemove={handleRemove} />
+        {!isSendLoading && (
+          <ChatFormPreview formData={formData} handleRemove={handleRemove} />
+        )}
       </div>
     </div>
   );

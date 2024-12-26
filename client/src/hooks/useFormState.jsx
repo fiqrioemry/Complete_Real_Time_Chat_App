@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const useFormState = (initialFormState) => {
+  const fileInputRef = useRef(null);
   const [formData, setFormData] = useState(initialFormState);
 
   const handleChange = (e) => {
@@ -26,6 +27,9 @@ export const useFormState = (initialFormState) => {
 
   const handleRemove = () => {
     setFormData((prev) => ({ ...prev, file: null }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return {
@@ -33,5 +37,6 @@ export const useFormState = (initialFormState) => {
     setFormData,
     handleChange,
     handleRemove,
+    fileInputRef,
   };
 };
