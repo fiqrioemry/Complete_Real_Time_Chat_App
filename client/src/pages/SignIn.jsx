@@ -25,7 +25,7 @@ const SignIn = () => {
       <div className="flex flex-col justify-center bg-base-100 items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           <AuthHeadingForm
-            title="Welcome Back"
+            title="Welcome to Chatbox"
             description="Sign in to your account"
           />
           {/* Form */}
@@ -49,8 +49,8 @@ const SignIn = () => {
 
       {/* Right Side - Image/Pattern */}
       <AuthImage
-        title="Welcome back!"
-        subtitle="Start conversations and catch up with your messages."
+        title="A Real Time Chat App"
+        subtitle="Start conversations and catch up with your friends."
       />
     </div>
   );

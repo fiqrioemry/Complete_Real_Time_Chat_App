@@ -26,7 +26,7 @@ const SignUp = () => {
       <div className="flex flex-col justify-center bg-base-100 items-center p-4 sm:p-6">
         <div className="w-full max-w-md space-y-8">
           <AuthHeadingForm
-            title="Create Account"
+            title="Create Chatbox Account"
             description="Get started with your free account"
           />
           <AuthControlForm
@@ -46,7 +46,7 @@ const SignUp = () => {
         </div>
       </div>
       <AuthImage
-        title="Join Chaty BOX"
+        title="Easy and Simple in a BOX"
         subtitle="Connect and stay in touch with your loved ones."
       />
     </div>

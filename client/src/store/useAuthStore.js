@@ -59,6 +59,10 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  testing: (formData) => {
+    toast.success("Success Submiting new File" + formData.username);
+  },
+
   signOut: async () => {
     try {
       const response = await axiosInstance.post("/auth/signout");

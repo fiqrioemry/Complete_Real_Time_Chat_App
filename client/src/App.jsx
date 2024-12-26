@@ -3,25 +3,66 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-
+import AuthRoute from "./middleware/AuthRoute";
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "./components/layout/MainLayout";
 import PageLayout from "./components/layout/PageLayout";
+import Practice from "./pages/Practice";
 
 const App = () => {
   return (
     <>
-      <MainLayout>
-        <Routes>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<PageLayout />}>
-            <Route index element={<Home />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="profile" element={<Profile />} />
-          </Route>
-        </Routes>
-      </MainLayout>
+      <Routes>
+        <Route
+          path="/signin"
+          element={
+            <AuthRoute>
+              <SignIn />
+            </AuthRoute>
+          }
+        />
+        <Route path="/practice" element={<Practice />} />
+        <Route
+          path="/signup"
+          element={
+            <AuthRoute>
+              <SignUp />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <AuthRoute>
+              <PageLayout />
+            </AuthRoute>
+          }
+        >
+          <Route
+            index
+            element={
+              <AuthRoute>
+                <Home />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <AuthRoute>
+                <Settings />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <AuthRoute>
+                <Profile />
+              </AuthRoute>
+            }
+          />
+        </Route>
+      </Routes>
     </>
   );
 };

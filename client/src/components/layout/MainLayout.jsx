@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import AuthRoute from "../../middleware/AuthRoute";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useThemeStore } from "../../store/useThemeStore";
+import PageLoading from "./PageLoading";
 
 const MainLayout = ({ children }) => {
   const { theme } = useThemeStore();
-  const { checkAuth } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -15,10 +15,8 @@ const MainLayout = ({ children }) => {
 
   return (
     <main data-theme={theme}>
-      <div>
-        <Toaster />
-        <AuthRoute>{children}</AuthRoute>
-      </div>
+      <Toaster />
+      <div>{isCheckingAuth ? <PageLoading /> : children}</div>
     </main>
   );
 };

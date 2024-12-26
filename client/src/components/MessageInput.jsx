@@ -1,110 +1,141 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, Send, X } from "lucide-react";
-import toast from "react-hot-toast";
+import { File, Image, Paperclip, Send, Trash, Video } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { fileOption } from "../config";
 
 const MessageInput = () => {
-  const [text, setText] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
+  const { register, handleSubmit, setValue, reset } = useForm();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      return;
-    }
+  const [filePreview, setFilePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [fileType, setFileType] = useState(null);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      console.log(reader.result);
-      setImagePreview(reader.result);
+  const handleFileUpload = (type) => {
+    setFileType(type);
+    const input = document.createElement("input");
+    input.type = "file";
+
+    if (type === "image") input.accept = "image/*";
+    else if (type === "video") input.accept = "video/*";
+    else if (type === "document") input.accept = ".pdf,.doc,.docx,.txt";
+
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setFilePreview({
+          type,
+          file,
+          url: URL.createObjectURL(file),
+        });
+        setValue("file", file, { shouldValidate: true });
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     };
-    reader.readAsDataURL(file);
+
+    input.click();
   };
 
-  const removeImage = () => {
-    setImagePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+  const handleRemoveFile = () => {
+    setFilePreview(null);
+    setFileType(null);
+    setValue("file", null, { shouldValidate: true });
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!text.trim() && !imagePreview) return;
-
-    try {
-      await sendMessage({
-        text: text.trim(),
-        image: imagePreview,
-      });
-
-      // Clear form
-      setText("");
-      setImagePreview(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    } catch (error) {
-      console.error("Failed to send message:", error);
-    }
+  const onSubmit = (formData) => {
+    if (filePreview) URL.revokeObjectURL(filePreview.url);
+    setFilePreview(null);
+    setFileType(null);
+    reset();
+    console.log(formData);
+    sendMessage(filePreview.url);
   };
 
   return (
-    <div className="p-4 w-full">
-      {imagePreview && (
-        <div className="mb-3 flex items-center gap-2">
-          <div className="relative">
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700"
-            />
-            <button
-              onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
-              flex items-center justify-center"
-              type="button"
-            >
-              <X className="size-3" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-        <div className="flex-1 flex gap-2">
-          <input
-            type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
-            placeholder="Type a message..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-          />
-
+    <div className="px-2 py-2 w-full">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center gap-x-2"
+      >
+        <div className="dropdown dropdown-top">
           <button
             type="button"
-            className={`hidden sm:flex btn btn-circle
-                     ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
-            onClick={() => fileInputRef.current?.click()}
+            tabIndex={0}
+            role="button"
+            className="btn btn-sm md:btn-md "
           >
-            <Image size={20} />
+            <Paperclip />
           </button>
+          <div
+            tabIndex={0}
+            className="dropdown-content menu bg-base-300 rounded-box z-[1] p-2 mb-2 shadow"
+          >
+            {fileOption.map((item, index) => (
+              <button
+                type="button"
+                onClick={() => handleFileUpload(item.title)}
+                className="flex items-center hover:bg-base-100 rounded-md gap-x-2 py-2 px-2"
+                key={index}
+              >
+                {<item.icon />}
+                <span>{item.title}</span>
+              </button>
+            ))}
+          </div>
         </div>
-        <button
-          type="submit"
-          className="btn btn-sm btn-circle"
-          disabled={!text.trim() && !imagePreview}
-        >
+        <input
+          type="text"
+          className="w-full input input-bordered rounded-lg input-sm sm:input-md"
+          placeholder="Type a message..."
+          {...register("text")}
+        />
+        <button type="submit" className="btn btn-sm sm:btn-md">
           <Send size={22} />
         </button>
       </form>
+
+      {/* Preview File */}
+      {filePreview && (
+        <div className="flex items-center gap-4 border p-2 mt-2 rounded-md">
+          {fileType === "image" && (
+            <img
+              src={filePreview.url}
+              alt="Preview"
+              className="w-20 h-20 object-cover rounded-md"
+            />
+          )}
+          {filePreview && fileType === "video" && (
+            <div>
+              <h3>Video Preview:</h3>
+              <video width="300" controls>
+                <source src={filePreview} type={File.type} />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
+          {fileType === "document" && (
+            <div className="flex items-center gap-2">
+              <File />
+              <span>{filePreview.file.name}</span>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleRemoveFile}
+            className="btn btn-error btn-sm"
+          >
+            <Trash />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
+
 export default MessageInput;
