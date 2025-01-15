@@ -47,7 +47,7 @@ const SignUp = () => {
       </div>
       <AuthImage
         title="Easy and Simple in a BOX"
-        subtitle="Connect and stay in touch with your loved ones."
+        subtitle="Connect and stay in touch with your loved ones ."
       />
     </div>
   );

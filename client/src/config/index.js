@@ -74,38 +74,9 @@ export const fileOption = [
     title: "document",
   },
 ];
+
 export const messageFormState = {
   text: "",
   file: null,
 };
 
-export const signInFormState = {
-  username: "",
-  email: "",
-  password: "",
-};
-
-export const signInFormConfig = [
-  {
-    id: "username",
-    name: "username",
-    type: "text",
-    placeholder: "input username ...",
-  },
-  {
-    id: "email",
-    name: "email",
-    type: "email",
-    placeholder: "input email ...",
-  },
-  {
-    id: "password",
-    name: "password",
-    type: "password",
-    placeholder: "input password ...",
-  },
-];
-
-{
-  /* <ChatSendLoading user={authUser} preview={formData.image} />; */
-}
